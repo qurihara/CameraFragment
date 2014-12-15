@@ -15,25 +15,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true" >
+        android:layout_alignParentLeft="true"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/btn_take"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:text="さつえい"
+            android:layout_weight="1.0" />
 
         <Button
             android:id="@+id/btn_autofocus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Autofocus" />
-
-        <Button
-            android:id="@+id/btn_take"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="take" />
+            android:text="ピント" />
 
         <Button
             android:id="@+id/btn_change_camera_direction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="direction" />
+            android:text="In/Out" />
 
     </LinearLayout>
 
