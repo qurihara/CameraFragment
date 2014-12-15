@@ -10,14 +10,20 @@ import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.Size;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
+
+import java.io.IOException;
+import java.net.URL;
+import java.net.HttpURLConnection;
 
 public class CameraSampleActivity extends FragmentActivity {
 
@@ -152,11 +158,11 @@ public class CameraSampleActivity extends FragmentActivity {
 
 			@Override
 			public void onShutter() {
-
 			}
 
 			@Override
 			public void onPictureTaken(Bitmap bitmap, Camera camera) {
+                captureTheta();
 				// String path =
 				// Environment.getExternalStorageDirectory().toString()
 				// + "/";
@@ -165,7 +171,41 @@ public class CameraSampleActivity extends FragmentActivity {
 			}
 		});
 	}
-
+    private void captureTheta() {
+        Log.d("qurihara","capturing theta");
+        ThetaCapture tc = new ThetaCapture();
+        tc.execute();
+    }
+    private class ThetaCapture extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                String server = "http://dnn4.cloudapp.net:8887/capture";   // ここのIPアドレスを書き換える！
+                //System.out.println(server);
+                URL url = new URL(server);
+                HttpURLConnection connection = null;
+                try {
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+//                    System.out.println("ok!");
+                        Log.d("qurihara", "capturing theta ok!");
+                    }
+                } catch (Exception e) {
+                    Log.d("qurihara", "capturing theta failed: " + e.getMessage());
+                } finally {
+                    if (connection != null) {
+                        connection.disconnect();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d("qurihara", "capturing theta failed: " + e.getMessage());
+                return false;
+            }
+            return true;
+        }
+    }
 	/**
 	 * オートフォーカス
 	 * */
