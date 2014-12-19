@@ -1,5 +1,6 @@
 package jp.ogwork.camerasample;
 
+import java.util.Date;
 import java.util.List;
 
 import jp.ogwork.camerafragment.camera.CameraFragment;
@@ -167,6 +168,8 @@ public class CameraSampleActivity extends FragmentActivity {
 				// Environment.getExternalStorageDirectory().toString()
 				// + "/";
 				// cameraFragment.setSavePictureDir(path);
+                Date date = new Date();
+                cameraFragment.setSavePictureName(date.getTime() + ".jpg");
 				cameraFragment.saveBitmap(bitmap);
 			}
 		});
